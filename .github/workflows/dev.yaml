@@ -30,6 +30,8 @@ jobs:
     uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-lint.yaml@main
     needs: scan
     with:
+      repository: ${{ inputs.repository }} 
+      ref: ${{ inputs.ref }}
       tfversion: '1.10.1'
   
   approval:
@@ -41,4 +43,6 @@ jobs:
     needs: approval
     secrets: inherit
     with:
+      repository: ${{ inputs.repository }} 
+      ref: ${{ inputs.ref }}
       tfversion: '1.10.1'

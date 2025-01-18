@@ -21,7 +21,7 @@ permissions:
 jobs:
 
   scan:
-    uses: guilherme-aroliveira/reusable-workflows/.github/workflows/scan.yml@main
+    uses: GUILHERME-AROLIVEIRA/REUSABLE-WORKFLOWS/.github/workflows/scan.yml@main
     with:
       repository: aws-eks-tf-project
       ref: ${{ github.ref }}

@@ -20,14 +20,15 @@ permissions:
 
 jobs:
 
-  scan:
+  test:
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: gitleaks
-        uses: guilherme-aroliveira/reusable-workflows/.github/workflows/scan.yaml@main
+  scan:
+    needs: test
+    uses: guilherme-aroliveira/reusable-workflows/.github/workflows/scan.yaml@main
 
   #ci:
     #uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-lint.yaml@main

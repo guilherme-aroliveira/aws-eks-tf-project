@@ -20,25 +20,21 @@ permissions:
 
 jobs:
 
-  test:
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout code
-        uses: actions/checkout@v4
-
   scan:
-    needs: test
-    uses: guilherme-aroliveira/reusable-workflows/.github/workflows/scan.yaml@main
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/scan.yaml@main
 
-  #ci:
-    #uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-lint.yaml@main
-    #needs: scan
-    #with:
-    #  tfversion: '1.10.1'
+  ci:
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-lint.yaml@main
+    needs: scan
+    with:
+      tfversion: '1.10.1'
   
   #approval:
-    #uses: guilherme-aroliveira/reusable-workflows/.github/workflows/approval.yaml@main
-    #needs: ci
+  #  uses: guilherme-aroliveira/gh-workflows/.github/workflows/approval.yaml@main
+  #  needs: ci
+  #  with:
+  #    approval_prompt: "Please review the plan and approve to proceed"
+  #    timeout_in_minutes: '30'
 
   #cd:
   #  uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-deploy.yaml@main

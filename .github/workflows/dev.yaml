@@ -35,7 +35,7 @@ jobs:
     secrets: inherit
     with:
       tfversion: '1.10.1'
-      github_token: ${{ secrets.GH_TOKEN }}
+      github_token: '${{ secrets.GITHUB_TOKEN }}'
       github_user: 'guilherme-aroliveira'
       repo: 'aws-eks-tf-project'
       timeout_in_minutes: '30'

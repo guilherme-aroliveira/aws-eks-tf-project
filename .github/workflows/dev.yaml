@@ -22,16 +22,11 @@ jobs:
 
   scan:
     uses: guilherme-aroliveira/reusable-workflows/.github/workflows/scan.yaml@main
-    with:
-      repository: 'guilherme-aroliveira/aws-eks-tf-project'
-      ref: 'main'
 
   ci:
     uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-lint.yaml@main
     needs: scan
     with:
-      repository: 'guilherme-aroliveira/aws-eks-tf-project'
-      ref: 'main'
       tfversion: '1.10.1'
   
   approval:
@@ -43,6 +38,4 @@ jobs:
   #  needs: approval
   #  secrets: inherit
   #  with:
-  #    repository: ${{ inputs.repository }} 
-  #    ref: ${{ inputs.ref }}
   #    tfversion: '1.10.1'

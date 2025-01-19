@@ -30,19 +30,19 @@ jobs:
     uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-lint.yaml@main
     needs: scan
     with:
-      repository: ${{ inputs.repository }} 
-      ref: ${{ inputs.ref }}
+      repository: aws-eks-tf-project 
+      ref: ${{ github.ref }}
       tfversion: '1.10.1'
   
   approval:
     uses: guilherme-aroliveira/reusable-workflows/.github/workflows/approval.yaml@main
     needs: ci
 
-  cd:
-    uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-deploy.yaml@main
-    needs: approval
-    secrets: inherit
-    with:
-      repository: ${{ inputs.repository }} 
-      ref: ${{ inputs.ref }}
-      tfversion: '1.10.1'
+  #cd:
+  #  uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-deploy.yaml@main
+  #  needs: approval
+  #  secrets: inherit
+  #  with:
+  #    repository: ${{ inputs.repository }} 
+  #    ref: ${{ inputs.ref }}
+  #    tfversion: '1.10.1'

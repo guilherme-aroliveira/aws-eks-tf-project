@@ -20,7 +20,14 @@ permissions:
 
 jobs:
 
+  test:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Get code
+        uses: actions/checkout@v4
+
   scan:
+    needs: test
     uses: guilherme-aroliveira/reusable-workflows/.github/workflows/scan.yaml@main
 
   #ci:

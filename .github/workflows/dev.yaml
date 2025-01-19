@@ -23,11 +23,11 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps: 
-      - name: Get code
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: gitleaks
-        uses: guilherme-aroliveira/reusable-workflows/scan.yaml@main
+        uses: guilherme-aroliveira/reusable-workflows/.github/workflows/scan.yaml@main
 
   #ci:
     #uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-lint.yaml@main

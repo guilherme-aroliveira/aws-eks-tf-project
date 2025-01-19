@@ -29,16 +29,13 @@ jobs:
     with:
       tfversion: '1.10.1'
   
-  #approval:
-  #  uses: guilherme-aroliveira/gh-workflows/.github/workflows/approval.yaml@main
-  #  needs: ci
-  #  with:
-  #    approval_prompt: "Please review the plan and approve to proceed"
-  #    timeout_in_minutes: '30'
-
-  #cd:
-  #  uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-deploy.yaml@main
-  #  needs: approval
-  #  secrets: inherit
-  #  with:
-  #    tfversion: '1.10.1'
+  cd:
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-deploy.yaml@main
+    needs: ci
+    secrets: inherit
+    with:
+      tfversion: '1.10.1'
+      github_token: ${{ secrets.GH_TOKEN }}
+      github_user: 'guilherme-aroliveira'
+      repo: 'aws-eks-tf-project'
+      timeout_in_minutes: '30'

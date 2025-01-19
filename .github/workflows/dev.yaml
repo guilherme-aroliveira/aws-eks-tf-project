@@ -28,14 +28,14 @@ jobs:
   cd:
     uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-deploy.yaml@main
     needs: ci
-    secrets: inherit
+    secrets:
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }} 
+      AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
+      AWS_DYNAMODB_TABLE: ${{ secrets.AWS_DYNAMODB_TABLE }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
     with:
       working_directory: './cloud-infrastructure/environments/dev/'
       tfversion: '1.10.1'
       github_user: 'guilherme-aroliveira'
       repo: 'aws-eks-tf-project'
       timeout_in_minutes: '30'
-      aws_bucket_name: ${{ secrets.AWS_BUCKET_NAME }} 
-      aws_bucket_key: ${{ secrets.AWS_BUCKET_KEY_NAME }} 
-      aws_dynamodb_table: ${{ secrets.AWS_DYNAMODB_TABLE }} 
-      aws_region: ${{ secrets.AWS_REGION 

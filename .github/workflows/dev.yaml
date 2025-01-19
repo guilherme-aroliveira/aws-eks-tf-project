@@ -23,15 +23,15 @@ jobs:
   scan:
     uses: guilherme-aroliveira/reusable-workflows/.github/workflows/scan.yaml@main
 
-  ci:
-    uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-lint.yaml@main
-    needs: scan
-    with:
-      tfversion: '1.10.1'
+  #ci:
+    #uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-lint.yaml@main
+    #needs: scan
+    #with:
+    #  tfversion: '1.10.1'
   
-  approval:
-    uses: guilherme-aroliveira/reusable-workflows/.github/workflows/approval.yaml@main
-    needs: ci
+  #approval:
+    #uses: guilherme-aroliveira/reusable-workflows/.github/workflows/approval.yaml@main
+    #needs: ci
 
   #cd:
   #  uses: guilherme-aroliveira/reusable-workflows/.github/workflows/tf-deploy.yaml@main

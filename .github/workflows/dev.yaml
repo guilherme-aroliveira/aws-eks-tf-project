@@ -20,14 +20,15 @@ jobs:
     uses: guilherme-aroliveira/gh-workflows/.github/workflows/scan.yaml@main
 
   ci:
-    uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-lint.yaml@main
     needs: scan
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-lint.yaml@main
     with:
+      working_directory: './cloud-infrastructure/environments/dev/'
       tfversion: '1.10.1'
   
-  cd:
-    uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-deploy.yaml@main
+  dev-deploy:
     needs: ci
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-deploy.yaml@main
     secrets:
       AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }} 
       AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
@@ -36,8 +37,56 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     with:
+      environment: dev
       working_directory: './cloud-infrastructure/environments/dev/'
       tfversion: '1.10.1'
-      github_user: 'guilherme-aroliveira'
-      repo: 'aws-eks-tf-project'
-      timeout_in_minutes: '30'
+
+  staging-approval-gate:
+    needs: dev-deploy
+    environment: stg
+    runs-on: ubuntu-latest
+    steps:
+      - name: approved
+        env: 
+          ENV_NAME: Staging
+        run: write-host "Approve for $($env.ENV_NAME)"
+
+  staging-deploy:
+    needs: staging-approval-gate
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-deploy.yaml@main
+    secrets:
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }} 
+      AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
+      AWS_DYNAMODB_TABLE: ${{ secrets.AWS_DYNAMODB_TABLE }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    with:
+      environment: stg
+      working_directory: './cloud-infrastructure/environments/stg/'
+      tfversion: '1.10.1'
+
+  prod-approval-gate:
+    needs: staging-deploy
+    environment: prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: approved
+        env: 
+          ENV_NAME: prod
+        run: write-host "Approve for $($env.ENV_NAME)"
+
+  prod-deploy:
+    needs: prod-approval-gate
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-deploy.yaml@main
+    secrets:
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }} 
+      AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
+      AWS_DYNAMODB_TABLE: ${{ secrets.AWS_DYNAMODB_TABLE }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    with:
+      environment: prod
+      working_directory: './cloud-infrastructure/environments/prod/'
+      tfversion: '1.10.1'

@@ -1,0 +1,32 @@
+name: Terraform Deploy
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+
+  scan:
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/scan.yaml@main
+
+  ci:
+    needs: scan
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-destroy.yaml@main
+    with:
+      working_directory: './cloud-infrastructure/environments/dev/'
+      tfversion: '1.10.5'
+      #access_role: ${{ secrets.ACCESS_ROLE }}
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      aws_region: ${{ secrets.AWS_REGION }}
+      aws_bucket_name: ${{ secrets.AWS_BUCKET_NAME }}
+      aws_bucket_key: ${{ secrets.AWS_BUCKET_KEY_NAME }}
+      aws_dynamodb_table: ${{ secrets.AWS_DYNAMODB_TABLE }}

@@ -23,11 +23,11 @@ jobs:
     with:
       working_directory: './cloud-infrastructure/environments/dev/'
       tf_version: '1.10.5'
-    secrets: 
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
       #access_role: ${{ secrets.ACCESS_ROLE }}
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      aws_region: ${{ secrets.AWS_REGION }}
-      aws_bucket_name: ${{ secrets.AWS_BUCKET_NAME }}
-      aws_bucket_key: ${{ secrets.AWS_BUCKET_KEY_NAME }}
-      aws_dynamodb_table: ${{ secrets.AWS_DYNAMODB_TABLE }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
+      AWS_DYNAMODB_TABLE: ${{ secrets.AWS_DYNAMODB_TABLE }}

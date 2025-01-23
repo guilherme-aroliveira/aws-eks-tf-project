@@ -22,7 +22,8 @@ jobs:
     uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-destroy.yaml@main
     with:
       working_directory: './cloud-infrastructure/environments/dev/'
-      tfversion: '1.10.5'
+      tf_version: '1.10.5'
+    secrets: 
       #access_role: ${{ secrets.ACCESS_ROLE }}
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -1,0 +1,41 @@
+name: Terraform Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+
+  scan:
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/scan.yaml@main
+
+  ci:
+    needs: scan
+    uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-lint.yaml@main
+    with:
+      working_directory: './cloud-infrastructure/environments/dev/'
+      tf_version: '1.10.5'
+  
+  #cd:
+    #needs: ci
+    #uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-deploy.yaml@main
+    #secrets:
+    #  AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+    #  AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
+    #  AWS_DYNAMODB_TABLE: ${{ secrets.AWS_DYNAMODB_TABLE }}
+    #  AWS_REGION: ${{ secrets.AWS_REGION }}
+    #  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #with:
+    #  working_directory: './cloud-infrastructure/environments/dev/'
+    #  tf_version: '1.10.5'

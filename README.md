@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/license/MIT)
 
-This is just a simple project that deploys ec2 instances on AWS using Terraform 
+This is just a simple project that deploys an EKS Cluster on AWS using Terraform 
 
 ### Description
 
@@ -28,8 +28,8 @@ dynamodb_table = "dynamodb tables's name"
 region = "aws region"
 role_arn = "aws role to execute terraform with credentials"
 ```
-The Infrastructure provisioning is performed by a pipeline file (example: pipelines.yml),
-which is responsible for executing a previously created GitHub Actions pipeline. Each pull request will trigger the pipeline.
+The infrastructure provisioning is performed by a pipeline file (example: pipelines.yaml),
+which executes a previously created GitHub Actions pipeline. Each pull request will trigger the pipeline.
 
 ### Connect to an instance
 In case it's necessary to connect to an EC2 instance, it can be done like this:

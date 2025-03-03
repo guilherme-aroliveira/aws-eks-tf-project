@@ -19,15 +19,15 @@ jobs:
   scan:
     uses: guilherme-aroliveira/gh-workflows/.github/workflows/scan.yaml@main
 
-  ci:
+  lint:
     needs: scan
     uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-lint.yaml@main
     with:
       working_directory: './cloud-infrastructure/environments/dev/'
       tf_version: '1.10.5'
   
-  #cd:
-    #needs: ci
+  #plan:
+    #needs: lint
     #uses: guilherme-aroliveira/gh-workflows/.github/workflows/tf-deploy.yaml@main
     #secrets:
     #  AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
